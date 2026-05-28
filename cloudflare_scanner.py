@@ -136,35 +136,62 @@ def ping_ip(ip: str, count: int = PING_COUNT, timeout: int = PING_TIMEOUT) -> di
 
 
 def measure_download_speed(target_ip: str, timeout: int = SPEED_TIMEOUT) -> float | None:
-    host = "speed.cloudflare.com"
-    url  = f"https://{target_ip}/__down?bytes=5242880"  # 5 MB
-    headers = {
-        "Host": host,
-        "User-Agent": "cf-scanner/1.0",
-    }
-
+    import ssl
+    from urllib3.connection import HTTPSConnection
+    from urllib3.connectionpool import HTTPSConnectionPool
+    from requests.adapters import HTTPAdapter
+ 
+    HOST     = "speed.cloudflare.com"
+    PATH     = "/__down?bytes=5242880"
+    PORT     = 443
+ 
+    class DirectIPConnection(HTTPSConnection):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+ 
+        def connect(self):
+            context = ssl.create_default_context()
+            raw_sock = socket.create_connection((target_ip, PORT), timeout=timeout)
+            self.sock = context.wrap_socket(raw_sock, server_hostname=HOST)
+ 
+    class DirectIPConnectionPool(HTTPSConnectionPool):
+        ConnectionCls = DirectIPConnection
+ 
+    class DirectIPAdapter(HTTPAdapter):
+        def get_connection_with_tls_context(self, request, verify, proxies=None, cert=None):
+            return DirectIPConnectionPool(HOST, port=PORT)
+ 
+        def get_connection(self, url, proxies=None):
+            return DirectIPConnectionPool(HOST, port=PORT)
+ 
+    session = requests.Session()
+    session.mount("https://", DirectIPAdapter())
+ 
     try:
         t_start = time.monotonic()
-        resp = requests.get(
-            url,
-            headers=headers,
+        resp = session.get(
+            f"https://{HOST}{PATH}",
             timeout=timeout,
-            verify=False,
             stream=True,
         )
+        resp.raise_for_status()
+ 
         bytes_received = 0
         for chunk in resp.iter_content(chunk_size=65536):
             bytes_received += len(chunk)
+ 
         elapsed = time.monotonic() - t_start
-
+ 
         if elapsed == 0 or bytes_received == 0:
             return None
-
+ 
         mbps = (bytes_received * 8) / (elapsed * 1_000_000)
         return round(mbps, 2)
-
+ 
     except Exception:
         return None
+    finally:
+        session.close()
 
 
 def scan_ip(ip: str, test_speed: bool = True) -> dict:
