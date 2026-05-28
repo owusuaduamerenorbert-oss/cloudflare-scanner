@@ -1,0 +1,8 @@
+# Cloudflare IP Scanner — Python dependencies
+# Install with: pip install -r requirements.txt
+
+# HTTP client — used for fetching Cloudflare IP ranges and speed testing
+requests>=2.31.0
+
+# Terminal formatting — progress bars, colour-coded tables
+rich>=13.7.0
